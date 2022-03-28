@@ -1,0 +1,39 @@
+[tool.pylint.messages_control]
+disable = "C0330, C0326, E0401"
+
+[tool.pylint.format]
+max-line-length = "120"
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+[tool.poetry]
+name = "gre2g"
+version = "0.1.0"
+description = "GRE2G (pronounced [:greg]) stands for **G**ame **Re**solution **Re**construction Benchmarkin**g**"
+authors = ["ondra <ondra.szekely@gmail.com>"]
+license = "GPL-3.0"
+
+[tool.poetry.dependencies]
+python = "~3.8"
+install = "^1.3.5"
+hydra-core = "1.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
