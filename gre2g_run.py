@@ -4,9 +4,10 @@ Run script for GRE2G.
 
 import os
 import hydra
-from miscellaneous.gre2g_config_schema import gre2g_config_schema_registration, GRE2GConfigSchema
-from shared.config import set_hydra_config
-from shared.config_schema import create_structured_config_schema
+from tools.config.gre2g_config_schema import gre2g_config_schema_registration, GRE2GConfigSchema
+from tools.config.hydra_config import set_hydra_config
+from tools.config.config_schema import create_structured_config_schema
+from miscellaneous.gre2g_utils import instantiate_run_command, instantiate_blob_database_handler
 
 
 @create_structured_config_schema(gre2g_config_schema_registration)
@@ -23,6 +24,9 @@ def main(hydra_config: GRE2GConfigSchema) -> None:  # pylint: disable=unused-arg
 
     Returns (None):
     """
+    blob_database = instantiate_blob_database_handler()   # pylint: disable=no-value-for-parameter
+    run_command = instantiate_run_command()   # pylint: disable=no-value-for-parameter
+    run_command(blob_database)
 
 
 if __name__ == "__main__":
