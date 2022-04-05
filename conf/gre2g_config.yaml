@@ -1,3 +1,7 @@
+defaults:
+  - gre2g_config_schema # do not touch
+  - database@settings.blob_database: file_system
+  - run: ???
+
 settings:
   temp_path: ???
-  database_path: ???

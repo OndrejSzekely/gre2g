@@ -1,0 +1,4 @@
+defaults:
+  - file_system_schema # do not touch
+
+database_path: ???
