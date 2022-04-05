@@ -21,11 +21,12 @@ def do_something(hydra_config: DictConfig):
 ```
 """
 
+import re
 import typing
 from functools import wraps
 from types import MethodType
 from omegaconf import DictConfig, OmegaConf
-from shared.structures import Singleton
+from miscellaneous.structures import Singleton
 
 
 config = None  # pylint: disable=invalid-name
@@ -105,4 +106,6 @@ class GetHydraConfig:
 
         Returns (typing.Any):
         """
+        if instance is None:
+            return self
         return self.__class__(MethodType(self._decorated_func, instance))
