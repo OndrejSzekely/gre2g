@@ -1,12 +1,12 @@
 """
-Implements `BaseDB` which is an abstract common interface for all databases.
+Implements `BaseBlobDB` which is an abstract common interface for all blob databases.
 """
 
 
 from abc import ABC, abstractmethod
 
 
-class BaseDB(ABC):
+class BaseBlobDB(ABC):
     """
     An abstract common interface for all database types.
     """

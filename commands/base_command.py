@@ -4,7 +4,7 @@ Implements `BaseCommand` which is an abstract common interface for all commands.
 
 
 from abc import ABC, abstractmethod
-from tools.database.base_db import BaseDB
+from tools.databases.blob_database.base_blob_db import BaseBlobDB
 
 
 class BaseCommand(ABC):
@@ -13,10 +13,10 @@ class BaseCommand(ABC):
     """
 
     @abstractmethod
-    def __call__(self, blob_db_handler: BaseDB) -> None:
+    def __call__(self, blob_db_handler: BaseBlobDB) -> None:
         """
         With this magic function, a command is executed.
 
         Attributes:
-            blob_db_handler (BaseDB): GRE2G's blob database handler.
+            blob_db_handler (BaseBlobDB): GRE2G's blob database handler.
         """
