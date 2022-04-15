@@ -4,16 +4,16 @@ parameters, except validation of YAML config parameters.
 """
 
 import os
-import typing
+from typing import Any, Union
 
 
-def type_check(variable: typing.Any, expected_type: typing.Any) -> None:
+def type_check(variable: Any, expected_type: Any) -> None:
     """
     Validates if given <variable> is type of <expected_type>.
 
     Args:
-        variable (typing.Any): Variable.
-        expected_type (typing.Any): Type.
+        variable (Any): Variable.
+        expected_type (Any): Type.
 
     Returns (None):
 
@@ -58,20 +58,20 @@ def folder_existence_check(folder_path: str) -> None:
     type_check(folder_path, str)
     if not os.path.exists(folder_path):
         raise OSError(f"Path `{folder_path}` does not exist.")
-    if not os.path.isfile(folder_path):
+    if os.path.isfile(folder_path):
         raise OSError(f"Path `{folder_path}` exists but it is not a folder.")
 
 
 def parameter_value_in_range(
-    param_value: typing.Union[int, float], lower_bound: typing.Union[int, float], upper_bound: typing.Union[int, float]
+    param_value: Union[int, float], lower_bound: Union[int, float], upper_bound: Union[int, float]
 ) -> None:
     """
     Checks if parameter value is in range <<lower_bound>, <upper_bound>>.
 
     Args:
-        param_value (typing.Union[int, float]): Parameter value.
-        lower_bound (typing.Union[int, float]): Lower bound of allowed parameter values.
-        upper_bound (typing.Union[int, float]): Upper bound of allowed parameter values.
+        param_value (Union[int, float]): Parameter value.
+        lower_bound (Union[int, float]): Lower bound of allowed parameter values.
+        upper_bound (Union[int, float]): Upper bound of allowed parameter values.
 
     Returns (None):
 

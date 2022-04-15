@@ -14,15 +14,15 @@ def main(cfg: DictConfig) -> None:
 """
 
 
-import typing
+from typing import Any, Callable
 from functools import wraps
 from hydra.core.config_store import ConfigStore
 from omegaconf import DictConfig
 
 
 def create_structured_config_schema(
-    schema_registering_function: typing.Callable[[ConfigStore], None]
-) -> typing.Callable[[typing.Callable[..., DictConfig]], typing.Callable[..., DictConfig]]:
+    schema_registering_function: Callable[[ConfigStore], None]
+) -> Callable[[Callable[..., DictConfig]], Callable[..., DictConfig]]:
     """
     Creates *Structured Config Schema* of Hydra framework which is used to validate config parameters presence
     and data types. It does not validate config parameter values. The actual schema registering is done by
@@ -30,35 +30,35 @@ def create_structured_config_schema(
     is code transparency from usage perspective.
 
     Args:
-        schema_registering_function (typing.Callable[[ConfigStore]], None]): Function which does actual Structured
+        schema_registering_function (Callable[[ConfigStore]], None]): Function which does actual Structured
         Config Schema registration. The function has to have only one input parameter of type ConfigStore and return
         None.
 
-    Returns (typing.Callable[[typing.Callable[..., typing.Any]], DictConfig]): Hydra's main decorator function.
+    Returns (Callable[[Callable[..., Any]], DictConfig]): Hydra's main decorator function.
     """
 
-    def call_schema_register(hydra_main_func: typing.Callable[..., DictConfig]) -> typing.Callable[..., DictConfig]:
+    def call_schema_register(hydra_main_func: Callable[..., DictConfig]) -> Callable[..., DictConfig]:
         """
         Calls <schema_registering_function> function at first and then returns decorated Hydra's main decorator
         function.
 
         Args:
-            hydra_main_func (typing.Callable[..., typing.Any]): Hydra's main decorator function.
+            hydra_main_func (Callable[..., Any]): Hydra's main decorator function.
 
-        Returns (typing.Callable[..., DictConfig]): Decorated Hydra's main decorator function.
+        Returns (Callable[..., DictConfig]): Decorated Hydra's main decorator function.
 
         """
         config_store = ConfigStore.instance()
         schema_registering_function(config_store)
 
         @wraps(hydra_main_func)
-        def hydra_main_decorator(*args: typing.Any, **kwargs: typing.Any) -> DictConfig:
+        def hydra_main_decorator(*args: Any, **kwargs: Any) -> DictConfig:
             """
             Decorator wrapped of Hydra's main function.
 
             Args:
-                *args (typing.Any): Positional arguments.
-                **kwargs (typing.Any): Key-worded arguments.
+                *args (Any): Positional arguments.
+                **kwargs (Any): Key-worded arguments.
 
             Returns (DictConfig): Hydra's configuration.
             """

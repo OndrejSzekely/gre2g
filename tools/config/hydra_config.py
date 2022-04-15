@@ -21,8 +21,7 @@ def do_something(hydra_config: DictConfig):
 ```
 """
 
-import re
-import typing
+from typing import Any, Callable
 from functools import wraps
 from types import MethodType
 from omegaconf import DictConfig, OmegaConf
@@ -33,15 +32,15 @@ config = None  # pylint: disable=invalid-name
 
 
 @Singleton
-def set_hydra_config(main_function: typing.Callable[..., typing.Any]) -> typing.Callable[..., typing.Any]:
+def set_hydra_config(main_function: Callable[..., Any]) -> Callable[..., Any]:
     """
     Decorator used to initializes global <config> variable with Hydra's config. The decorator has to be be called once,
     right after the Hydra's decorator <hydra.main>.
 
     Args:
-        main_function (typing.Callable[..., typing.Any]): Main script function which performs program orchestration.
+        main_function (Callable[..., Any]): Main script function which performs program orchestration.
 
-    Returns (typing.Callable[..., typing.Any]): Decorated main_function.
+    Returns (Callable[..., Any]): Decorated main_function.
     """
 
     @wraps(main_function)
@@ -69,42 +68,42 @@ class GetHydraConfig:
     or a class method. It passes into decorated function / method the config as the first argument.
 
     Attributes:
-        _decorated_func (typing.Any): Function / method on which the decorator is applied.
+        _decorated_func (Any): Function / method on which the decorator is applied.
     """
 
-    def __init__(self, decorated_func: typing.Any):
+    def __init__(self, decorated_func: Any):
         """
         Saves decorated function / method as attribute, for later lookup.
 
         Args:
-            decorated_func (typing.Any): Decorated function / method.
+            decorated_func (Any): Decorated function / method.
         """
         self._decorated_func = decorated_func
 
-    def __call__(self, *args: typing.Any, **kwargs: typing.Any) -> typing.Callable[..., typing.Any]:
+    def __call__(self, *args: Any, **kwargs: Any) -> Callable[..., Any]:
         """
         Passes Hydra's config, stored in <config> global variable, as a first argument of the function / method.
         The method is called when decorator is applied on class method or function.
 
         Args:
-            *args (typing.Any): Positional arguments.
-            **kwargs (typing.Any): Key-worded arguments.
+            *args (Any): Positional arguments.
+            **kwargs (Any): Key-worded arguments.
 
-        Returns (typing.Callable[..., typing.Any]): Decorated function which takes Hydra's config as the
+        Returns (Callable[..., Any]): Decorated function which takes Hydra's config as the
             first input argument.
         """
         global config  # pylint: disable=global-statement, invalid-name
         return self._decorated_func(config, *args, **kwargs)
 
-    def __get__(self, instance: typing.Any, owner: typing.Any) -> typing.Any:
+    def __get__(self, instance: Any, owner: Any) -> Any:
         """
         The method is needed to work with class method.
 
         Args:
-            instance (typing.Any): Class instance.
-            owner (typing.Any): Instance class owner.
+            instance (Any): Class instance.
+            owner (Any): Instance class owner.
 
-        Returns (typing.Any):
+        Returns (Any):
         """
         if instance is None:
             return self
