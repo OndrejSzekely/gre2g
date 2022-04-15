@@ -24,6 +24,7 @@ class FileSystemDBSchema(DatabaseSchema):
         database_path (str): Database FS path.
         _target_ (str): Path to `FileSystemDB` class.
     """
+
     database_path: str
     _target_: str = "tools.database.file_system_db.FileSystemDB"
 
@@ -37,6 +38,7 @@ class SettingsSchema:
         temp_path (str): Path of the GRE2G's temp folder.
         blob_database (str): GREG's blob database.
     """
+
     temp_path: str
     blob_database: FileSystemDBSchema
 
@@ -56,6 +58,7 @@ class RunInitSchema(RunSchema):
     Attributes:
         _target_ (str): Path to `InitCommand` class.
     """
+
     _target_: str = "commands.init.InitCommand"
 
 
@@ -68,6 +71,7 @@ class GRE2GConfigSchema:
         settings (SettingsSchema): GRE2G's settings.
         run (RunSchema): GRE2G's run command.
     """
+
     settings: SettingsSchema
     run: RunSchema
 
