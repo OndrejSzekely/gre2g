@@ -3,6 +3,7 @@ This file contains small domain-free functions specific to GRE2G.
 """
 
 
+from os import path
 import hydra
 from commands.base_command import BaseCommand
 from tools.database.base_db import BaseDB
@@ -34,3 +35,29 @@ def instantiate_blob_database_handler(hydra_config: GRE2GConfigSchema) -> BaseDB
     Returns (BaseDB): Instantiated DB.
     """
     return hydra.utils.instantiate(hydra_config.settings.blob_database)
+
+
+def append_file_ext_if_needed(file_path: str, file_ext: str) -> str:
+    """
+    Appends `file_ext` to `file_path` if not present. If the extension is present, `file_path` is returned without
+    a change.
+
+    Args:
+        file_path (str): File path.
+        file_ext (str): Extension to be added ot checked. It could be with or without leading '.'.
+
+    Returns:
+        str: File path with the extension.
+
+    Exceptions:
+        ValueError: If `file_path` contains a file extension, which doesn't match with `file_ext`.
+    """
+    if file_ext[0] != ".":
+        file_ext = "." + file_ext
+
+    root, ext = path.splitext(file_path)
+    if not ext:
+        return path.join(root, file_ext)
+    if ext not in [file_ext.lower(), file_ext.capitalize()]:
+        raise ValueError(f"File path `{file_path}` doesn't have expected extension `{file_ext}`.")
+    return file_path
