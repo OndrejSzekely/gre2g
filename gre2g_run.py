@@ -11,9 +11,7 @@ from miscellaneous.gre2g_utils import instantiate_run_command, instantiate_blob_
 
 
 @create_structured_config_schema(gre2g_config_schema_registration)
-@hydra.main(
-    config_path=f"{os.path.join(os.getcwd(), 'conf')}", config_name="gre2g_config"
-)  # type: ignore[misc]
+@hydra.main(config_path=f"{os.path.join(os.getcwd(), 'conf')}", config_name="gre2g_config")  # type: ignore[misc]
 @set_hydra_config
 def main(hydra_config: GRE2GConfigSchema) -> None:  # pylint: disable=unused-argument
     """
@@ -24,8 +22,8 @@ def main(hydra_config: GRE2GConfigSchema) -> None:  # pylint: disable=unused-arg
 
     Returns (None):
     """
-    blob_database = instantiate_blob_database_handler()   # pylint: disable=no-value-for-parameter
-    run_command = instantiate_run_command()   # pylint: disable=no-value-for-parameter
+    blob_database = instantiate_blob_database_handler()  # pylint: disable=no-value-for-parameter
+    run_command = instantiate_run_command()  # pylint: disable=no-value-for-parameter
     run_command(blob_database)
 
 
