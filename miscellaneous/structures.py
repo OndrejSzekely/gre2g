@@ -3,7 +3,7 @@ This module provides data structures/patterns (classes or decorators).
 """
 
 
-import typing
+from typing import Set, Any
 from types import MethodType
 
 
@@ -15,32 +15,32 @@ class Singleton:
     not only on one object of the program. It does not change decorated object.
 
     Attributes:
-        _called (typing.Set[typing.Any]): Set data structure which keeps one use across classes / functions / methods.
-        _function (typing.Any): Class / function / method on which the decorator is applied.
+        _called (Set[Any]): Set data structure which keeps one use across classes / functions / methods.
+        _function (Any): Class / function / method on which the decorator is applied.
     """
 
-    _called: typing.Set[typing.Any] = set()
+    _called: Set[Any] = set()
 
-    def __init__(self, decorated_object: typing.Any):
+    def __init__(self, decorated_object: Any):
         """
         Saves decorated object as attribute, for later lookup.
 
         Args:
-            decorated_object (typing.Any): Decorated object.
+            decorated_object (Any): Decorated object.
         """
         self._decorated_object = decorated_object
 
-    def __call__(self, *args: typing.Any, **kwargs: typing.Any) -> typing.Any:
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
         """
         It checks if decorated object was not already instantiated or called.
         If does not, it allows to create / call it. The method is called when decorator
         is applied on class / function / method.
 
         Args:
-            *args (typing.Any): Positional arguments.
-            **kwargs (typing.Any): Key-worded arguments.
+            *args (Any): Positional arguments.
+            **kwargs (Any): Key-worded arguments.
 
-        Returns (Typing.Any): Decorated object itself without change.
+        Returns (Any): Decorated object itself without change.
 
         Exceptions:
             Exception: Violence of singleton paradigm of decorated object.
@@ -54,15 +54,15 @@ class Singleton:
 
         return self._decorated_object(*args, **kwargs)
 
-    def __get__(self, instance: typing.Any, owner: typing.Any) -> typing.Any:
+    def __get__(self, instance: Any, owner: Any) -> Any:
         """
         The method is needed to work with class method.
 
         Args:
-            instance (typing.Any): Class instance.
-            owner (typing.Any): Instance class owner.
+            instance (Any): Class instance.
+            owner (Any): Instance class owner.
 
-        Returns (typing.Any):
+        Returns (Any):
 
         Exceptions:
             Exception: Violence of singleton paradigm of decorated object.
