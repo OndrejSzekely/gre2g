@@ -62,8 +62,7 @@ class BaseBlobDB(ABC):
         """
         Returns a database content on `level_path` level.
 
-        Returns:
-            List[str]: Level content.
+        Returns (List[str]): Level content.
         """
 
     @abstractmethod
@@ -76,6 +75,8 @@ class BaseBlobDB(ABC):
             new_level_path (List[str]): New level path to be added.
             use_hash (bool): Whether use item's name or generate a hash to create item's FS name. If set to `False`,
                 item's first 32 characters are used.
+
+        Returns (None):
         """
 
     @abstractmethod
@@ -85,6 +86,8 @@ class BaseBlobDB(ABC):
 
         Args:
             level_path (List[str]): Level path.
+
+        Returns (None):
 
         Exceptions:
             OSError: Raised if `level_path` does not exist.
@@ -105,6 +108,8 @@ class BaseBlobDB(ABC):
             use_hash (bool): If set to `True` hashing function is used to generate file's name under which the file is
                 saved, otherwise file's name is used.
 
+        Returns (None):
+
         Exceptions:
             OSError: Raised if `level_path` does not exist or `file_path` does not exist.
         """
@@ -118,6 +123,8 @@ class BaseBlobDB(ABC):
         Args:
             file_path (str): User facing file path to be deleted.
 
+        Returns (None):
+
         Exceptions:
             OSError: Raised if `file_path` does not exist.
         """
@@ -130,8 +137,7 @@ class BaseBlobDB(ABC):
         Args:
             file_path (List[str]): Path of the file to be fetched.
 
-        Returns:
-            bytes: File's bytes.
+        Returns (bytes): File's bytes.
 
         Exceptions:
             OSError: Raised if `file_path` does not exist.
