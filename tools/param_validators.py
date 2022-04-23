@@ -5,6 +5,7 @@ parameters, except validation of YAML config parameters.
 
 import os
 from typing import Any, Union
+import typeguard
 
 
 def type_check(variable: Any, expected_type: Any) -> None:
@@ -19,9 +20,9 @@ def type_check(variable: Any, expected_type: Any) -> None:
 
     Exceptions:
         TypeError: Raised if <variable> is not type of <expected_type>.
+
     """
-    if not isinstance(variable, expected_type):
-        raise TypeError(f"Given variable value `{variable}` does not meet expected type `{expected_type}`.")
+    typeguard.check_type("variable", variable, expected_type)
 
 
 def file_existence_check(file_path: str) -> None:
