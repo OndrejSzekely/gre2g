@@ -55,7 +55,7 @@ def append_file_ext_if_needed(file_path: str, file_ext: str) -> str:
     """
     param_val.type_check(file_path, str)
     param_val.type_check(file_ext, str)
-    
+
     if file_ext[0] != ".":
         file_ext = "." + file_ext
 
