@@ -117,7 +117,7 @@ class BaseBlobDB(ABC):
     @abstractmethod
     def delete_file(self, file_path: List[str]) -> None:
         """
-        Deletes the file located on `file_path` from the database. File path has to be user facing, not DB's
+        Deletes the file located on `file_path` from the database (last item). File path has to be user facing, not DB's
         internal representation.
 
         Args:
