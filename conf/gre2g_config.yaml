@@ -4,4 +4,5 @@ defaults:
   - run: ???
 
 settings:
-  temp_path: ???
+  blob_db_recordings_loc: "recordings_db"
+  blob_db_temp_loc: "temp"

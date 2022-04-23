@@ -6,6 +6,7 @@ It does not validate parameter values.
 
 from dataclasses import dataclass
 from hydra.core.config_store import ConfigStore
+from miscellaneous.enums import PDDFFSFormat
 
 
 @dataclass
@@ -22,11 +23,13 @@ class FileSystemDBSchema(DatabaseSchema):
 
     Attributes:
         database_path (str): Database FS path.
+        pd_df_fs_format (PDDFFSFormat): Underlying Pandas DF FS format.
         _target_ (str): Path to `FileSystemDB` class.
     """
 
     database_path: str
-    _target_: str = "tools.database.file_system_db.FileSystemDB"
+    pd_df_fs_format: PDDFFSFormat
+    _target_: str = "tools.databases.blob_database.file_system_db.FileSystemDB"
 
 
 @dataclass
@@ -35,11 +38,13 @@ class SettingsSchema:
     Hydra config schema for Settings.
 
     Atributes:
-        temp_path (str): Path of the GRE2G's temp folder.
+        blob_db_recordings_loc (str): Location of recordings inside GRE2G's blob database.
+        blob_db_temp_loc (str): Location of temp store inside GRE2G's blob database.
         blob_database (str): GREG's blob database.
     """
 
-    temp_path: str
+    blob_db_recordings_loc: str
+    blob_db_temp_loc: str
     blob_database: FileSystemDBSchema
 
 
@@ -60,6 +65,30 @@ class RunInitSchema(RunSchema):
     """
 
     _target_: str = "commands.init.InitCommand"
+
+
+@dataclass
+class RunAddRecordingSchema(RunSchema):
+    """
+    `add_recording` run Hydra Schema.
+
+    Attributes:
+        game_name (str): Game name.
+        track_name (str): Recording track name.
+        tech (str): Technology used to produce the recording.
+        recording_path (str): Recording path.
+        start_offset (int): Video start offset, which doesn't contain a valid content to be compared.
+        end_offset (int): Video end offset, which doesn't contain a valid content to be compared.
+        _target_ (str): Path to `AddRecordingCommand` class.
+    """
+
+    game_name: str
+    track_name: str
+    tech: str
+    recording_path: str
+    start_offset: int
+    end_offset: int
+    _target_: str = "commands.add_recording.AddRecordingCommand"
 
 
 @dataclass
@@ -88,3 +117,4 @@ def gre2g_config_schema_registration(cf_instance: ConfigStore) -> None:
     cf_instance.store(name="gre2g_config_schema", node=GRE2GConfigSchema)
     cf_instance.store(group="database", name="file_system_schema", node=FileSystemDBSchema)
     cf_instance.store(group="run", name="init_schema", node=RunInitSchema)
+    cf_instance.store(group="run", name="add_recording_schema", node=RunAddRecordingSchema)

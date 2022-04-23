@@ -13,7 +13,7 @@ and creates new ones.
 
 ``` bash
 python gre2g_run.py \
-    settings.temp_path=<TEMP_FOLDER_PATH> \
+    settings.workdir_path=<WORKDIR_FOLDER_PATH> \
     settings.blob_database.database_path=<BLOB_DATABSE_FOLDER_PATH> \
     run=init \
     hydra.run.dir=.

@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
 
 
-class BaseCommand(ABC):
+class BaseCommand(ABC):  # pylint: disable=too-few-public-methods
     """
     An abstract common interface for all commands.
     """

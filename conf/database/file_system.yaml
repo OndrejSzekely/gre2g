@@ -2,3 +2,4 @@ defaults:
   - file_system_schema # do not touch
 
 database_path: ???
+pd_df_fs_format: "CSV"

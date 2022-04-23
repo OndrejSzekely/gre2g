@@ -1,0 +1,9 @@
+defaults:
+  - add_recording_schema # do not touch
+
+game_name: ???
+track_name: ???
+tech: ???
+recording_path: ???
+start_offset: 0
+end_offset: 0

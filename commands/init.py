@@ -3,16 +3,18 @@
 """
 
 
+from os import path
 from tools.config.hydra_config import GetHydraConfig
-from .base_command import BaseCommand
+from tools.config.gre2g_config_schema import GRE2GConfigSchema
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
+from .base_command import BaseCommand
 
 
-class InitCommand(BaseCommand):
+class InitCommand(BaseCommand):  # pylint: disable=too-few-public-methods
     """
     `init` run command class implementation.
 
-    Performs initialization of the databases and temporary folder. If the folders already exist, it will delete them and
+    Performs initialization of the databases and workdir folder. If the folders already exist, it will delete them and
     create empty ones. If the folders does not exist, it will create them.
     """
 
@@ -20,12 +22,21 @@ class InitCommand(BaseCommand):
         """"""
 
     @GetHydraConfig
-    def __call__(self, blob_db_handler: BaseBlobDB) -> None:
+    def __call__(self, hydra_config: GRE2GConfigSchema, blob_db_handler: BaseBlobDB) -> None:  # type: ignore
         """
-        Performs initialization of the databases and temporary folder. If the folders already exist,
+        Performs initialization of the databases and workdir folder. If the folders already exist,
         it will delete them and create empty ones. If the folders does not exist, it will create them.
 
         Attributes:
             blob_db_handler (BaseBlobDB): GRE2G's blob database handler.
         """
-        blob_db_handler.initialize()
+        with blob_db_handler:
+            blob_db_handler.initialize()
+            blob_db_handler.force_add_level(
+                path.normpath(hydra_config.settings.blob_db_recordings_loc).split(blob_db_handler.PATH_SEPARATOR),
+                use_hash=False,
+            )
+            blob_db_handler.force_add_level(
+                path.normpath(hydra_config.settings.blob_db_temp_loc).split(blob_db_handler.PATH_SEPARATOR),
+                use_hash=False,
+            )
