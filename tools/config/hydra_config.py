@@ -92,7 +92,7 @@ class GetHydraConfig:
         Returns (Callable[..., Any]): Decorated function which takes Hydra's config as the
             first input argument.
         """
-        global config  # pylint: disable=global-statement, invalid-name
+        global config  # pylint: disable=global-statement, invalid-name, global-variable-not-assigned
         return self._decorated_func(config, *args, **kwargs)
 
     def __get__(self, instance: Any, owner: Any) -> Any:

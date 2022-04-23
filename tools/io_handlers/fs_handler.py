@@ -78,7 +78,7 @@ class FileSystemIOHandler:
         param_val.type_check(file_path, str)
         param_val.file_existence_check(file_path)
 
-        with open(file_path, 'rb') as file_reader:
+        with open(file_path, "rb") as file_reader:
             file_bytes = file_reader.read()
             file_reader.close()
 
