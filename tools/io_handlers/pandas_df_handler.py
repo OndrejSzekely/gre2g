@@ -18,8 +18,8 @@ class PandasDFIOHandler:
     @staticmethod
     def df_fs_force_save_empty(df_base_path: str, df_format: PDDFFSFormat, header: Dict[str, str]) -> None:
         """
-        Creates a new DataFrame with the header, given by `header` and saves it on `df_base_path` path in format
-        `df_format` with corresponding extension. If file exists, it is overwritten.
+        Creates a new DataFrame with the header, given by <header> and saves it on <df_base_path> path in format
+        <df_format> with corresponding extension. If file exists, it is overwritten.
 
         Args:
             df_base_path (str): Path of the newly created DataFrame without extension.
@@ -49,8 +49,8 @@ class PandasDFIOHandler:
     @staticmethod
     def df_fs_force_save(df_base_path: str, df_format: PDDFFSFormat, dataframe: pd.DataFrame) -> None:
         """
-        Saves DataFrame `dataframe` on path `df_base_path` in format
-        `df_format` with corresponding extension. If file exists, it is overwritten.
+        Saves DataFrame <dataframe> on path <df_base_path> in format
+        <df_format> with corresponding extension. If file exists, it is overwritten.
 
         Args:
             df_base_path (str): Path of the DataFrame FS path without extension.
@@ -76,11 +76,11 @@ class PandasDFIOHandler:
     @staticmethod
     def load_df(df_base_path: str, df_format: PDDFFSFormat) -> pd.DataFrame:
         """
-        Loads the DataFrame from FS located on path `df_base_path` without extension.
+        Loads the DataFrame from FS located on path <df_base_path> without extension.
         Defines DataFrame's saved format and file's extension.
         Args:
             df_base_path (str): DataFrame's path without extension. The extension must be compliant with
-                `df_format`.
+                <df_format>.
             df_format (PDDFFSFormat): Pandas DataFrame file system format.
 
         Returns:

@@ -3,7 +3,9 @@ This file contains small domain-free functions specific to GRE2G.
 """
 
 
+from typing import List
 from os import path
+import difflib
 import hydra
 from commands.base_command import BaseCommand
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
@@ -40,18 +42,18 @@ def instantiate_blob_database_handler(hydra_config: GRE2GConfigSchema) -> BaseBl
 
 def append_file_ext_if_needed(file_path: str, file_ext: str) -> str:
     """
-    Appends `file_ext` to `file_path` if not present. If the extension is present, `file_path` is returned without
+    Appends <file_ext> to <file_path> if not present. If the extension is present, <file_path> is returned without
     a change.
 
     Args:
         file_path (str): File path.
-        file_ext (str): Extension to be added ot checked. It could be with or without leading '.'.
+        file_ext (str): Extension to be added ot checked. It could be with or without leading `.`.
 
     Returns:
         str: File path with the extension.
 
     Exceptions:
-        ValueError: If `file_path` contains a file extension, which doesn't match with `file_ext`.
+        ValueError: If <file_path> contains a file extension, which doesn't match with <file_ext>.
     """
     param_val.type_check(file_path, str)
     param_val.type_check(file_ext, str)
@@ -65,3 +67,35 @@ def append_file_ext_if_needed(file_path: str, file_ext: str) -> str:
     if ext not in [file_ext.lower(), file_ext.capitalize()]:
         raise ValueError(f"File path `{file_path}` doesn't have expected extension `{file_ext}`.")
     return file_path
+
+
+def get_similar_items(
+    item_names: List[str], queried_item_name: str, max_matches: int = 3, sim_thresh: float = 0.6
+) -> List[str]:
+    """
+    Finds item names in <item_names> which are similar to queried name <queried_item_name>.
+
+    Args:
+        item_names (List[str]): List of item names.
+        queried_item_name (str): Queried item name, for which similar names from <item_names> are searched.
+        max_matches (int): Number of maximal returned matches.
+        sim_thresh (float): Minimal similarity threshold.
+
+    Returns (List[str]): A list of similar names from <item_names>.
+    """
+    return difflib.get_close_matches(queried_item_name, item_names, n=max_matches, cutoff=sim_thresh)
+
+
+def print_selection_options(items: List[str], selection_indices: List[int]) -> None:
+    """
+    Displays <items> options with corresponding <selection_indices> indices in a pretty way. This is used when
+    some options to pick up from are desired to be shown to a user, who afterwards selects an option from the list.
+
+    Args:
+        items (List[str]): Options to display.
+        selection_indices (List[int]): Corresponding selection indices, for each option.
+
+    Returns (None):
+    """
+    for item, selection_index in zip(items, selection_indices):
+        print(f"{item:80}({selection_index})")
