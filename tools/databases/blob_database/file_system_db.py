@@ -383,6 +383,10 @@ class FileSystemDB(BaseBlobDB):
 
         mapping_table = self._load_level_mapping_table(level_path)
 
+        # check if item already exists
+        if not mapping_table[mapping_table.name == item_name].empty:
+            raise OSError(f"Item `{item_name}` already exists in the database.")
+
         # check if item is a file, if not `ext` is empty
         base_item_name, ext = path.splitext(item_name)
 
