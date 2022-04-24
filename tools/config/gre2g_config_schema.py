@@ -88,7 +88,7 @@ class RunAddRecordingSchema(RunSchema):
     recording_path: str
     start_offset: int
     end_offset: int
-    _target_: str = "commands.add_recording_command.AddRecordingCommand"
+    _target_: str = "commands.add_recording.AddRecordingCommand"
 
 
 @dataclass
