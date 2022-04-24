@@ -4,7 +4,7 @@ Stateless Pandas DataFrame IO handler implementation.
 
 import os
 from os import path
-from typing import Dict
+from typing import Dict, Optional
 import pandas as pd
 from miscellaneous.enums import PDDFFSFormat
 from tools import param_validators as param_val
@@ -74,7 +74,7 @@ class PandasDFIOHandler:
             dataframe.to_csv(df_path, index=False)
 
     @staticmethod
-    def load_df(df_base_path: str, df_format: PDDFFSFormat) -> pd.DataFrame:
+    def load_df(df_base_path: str, df_format: PDDFFSFormat, dtype_header: Optional[Dict[str, str]]) -> pd.DataFrame:
         """
         Loads the DataFrame from FS located on path <df_base_path> without extension.
         Defines DataFrame's saved format and file's extension.
@@ -82,12 +82,15 @@ class PandasDFIOHandler:
             df_base_path (str): DataFrame's path without extension. The extension must be compliant with
                 <df_format>.
             df_format (PDDFFSFormat): Pandas DataFrame file system format.
+            dtype_header (Optional[Dict[str, str]]): Mapping table header with data types. In not passed, then data
+                types are deduced.
 
         Returns:
             pd.DataFrame: Loaded Pandas DataFrame.
         """
         param_val.type_check(df_base_path, str)
         param_val.type_check(df_format, PDDFFSFormat)
+        param_val.type_check(dtype_header, Optional[Dict[str, str]])
 
         df_path = df_base_path + df_format.value
         param_val.file_existence_check(df_path)
@@ -96,5 +99,5 @@ class PandasDFIOHandler:
         if df_format == PDDFFSFormat.PARQUET:
             loaded_df = pd.read_parquet(df_path)
         if df_format == PDDFFSFormat.CSV:
-            loaded_df = pd.read_csv(df_path, header=0)
+            loaded_df = pd.read_csv(df_path, header=0, dtype=dtype_header, engine="pyarrow")
         return loaded_df
