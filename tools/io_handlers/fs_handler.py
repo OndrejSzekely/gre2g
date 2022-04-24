@@ -17,7 +17,7 @@ class FileSystemIOHandler:
     @staticmethod
     def force_create_folder(folder_path: str) -> None:
         """
-        Creates a folder given by `folder_path`. If there exists a folder on given path, it is deleated and created
+        Creates a folder given by <folder_path>. If there exists a folder on given path, it is deleated and created
         again. If there is a file on given path, an exception (OSError) is rised.
 
         Args:
@@ -35,7 +35,7 @@ class FileSystemIOHandler:
     @staticmethod
     def create_folder(folder_path: str) -> None:
         """
-        Creates a folder given by `folder_path`. If there exists a folder on given path, then nothing happens.
+        Creates a folder given by <folder_path>. If there exists a folder on given path, then nothing happens.
         If there is a file on given path, an exception (OSError) is rised.
 
         Args:
@@ -53,7 +53,7 @@ class FileSystemIOHandler:
     @staticmethod
     def delete_file(file_path: str) -> None:
         """
-        Deletes a file given by `file_path`. Raises an exception (OSError) if doesn't exist.
+        Deletes a file given by <file_path>. Raises an exception (OSError) if doesn't exist.
 
         Args:
             file_path (str): File path.
@@ -68,7 +68,7 @@ class FileSystemIOHandler:
     @staticmethod
     def get_file(file_path: str) -> bytes:
         """
-        Reads file's bytes. File is given by its path `file_path`.
+        Reads file's bytes. File is given by its path <file_path>.
 
         Args:
             file_path (str): File path.
@@ -87,7 +87,7 @@ class FileSystemIOHandler:
     @staticmethod
     def delete_folder(folder_path: str) -> None:
         """
-        Deletes a folder given by `folder_path`. Raises an exception (OSError) if doesn't exist.
+        Deletes a folder given by <folder_path>. Raises an exception (OSError) if doesn't exist.
 
         Args:
             folder_path (str): Folder path.
