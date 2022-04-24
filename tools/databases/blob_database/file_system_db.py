@@ -63,6 +63,8 @@ class FileSystemDB(BaseBlobDB):
         MAPPING_TABLE (Final[str]): Name of Pandas DataFrame mapping table. It stores for each lavel mappings from
             user level/item name to file system id.
         PATH_SEPARATOR (str): Path separator.
+        MAPPING_TABLE_HEADER (Final[Dict[str, str]]): Mapping table header with data types.
+        HASH_LENGTH (Final[int]): Mapping table hash length.
     """
 
     MAPPING_TABLE: Final[str] = "mapping_table"
@@ -130,7 +132,7 @@ class FileSystemDB(BaseBlobDB):
 
         try:
             mapping_table = self._load_level_mapping_table(level_path)
-            return mapping_table.name.values.tolist()
+            return mapping_table["name"].values
         except OSError as os_error:
             raise OSError(f"Level `{level_path}` can not be listed.") from os_error
 
@@ -282,7 +284,7 @@ class FileSystemDB(BaseBlobDB):
             level_mapping_df = self._load_level_mapping_table(level_path_aux)
             level_mapping = level_mapping_df[level_mapping_df.name == level]
             if not level_mapping.empty:
-                fs_path.append(level_mapping.fs_id.values[0])
+                fs_path.append(level_mapping["fs_id"].values[0])
                 level_path_aux.append(level)
             else:
                 return NullFSPath()
@@ -364,7 +366,8 @@ class FileSystemDB(BaseBlobDB):
         fs_level_path = self._get_fs_path(level_path)
         if isinstance(fs_level_path, NullFSPath):
             raise OSError(f"Given new level path `{level_path}` does not exist.")
-        return PDDFIOHandler.load_df(self._get_mapping_table_abs_path(fs_level_path), self.pd_df_fs_format)
+        return PDDFIOHandler.load_df(self._get_mapping_table_abs_path(fs_level_path), self.pd_df_fs_format,
+                                     self.MAPPING_TABLE_HEADER)
 
     def _add_item_into_mapping_table(self, level_path: List[str], item_name: str, use_hash: bool = True) -> str:
         """
