@@ -127,7 +127,15 @@ section of each step.
    source gre2g_activate_env.sh
    ```
 
-8. Everything is now up and ready to run Metron's components. Be aware that you can run only one component at the time
+8. Install FFmpeg **4.3.1** ([how to install](https://ffmpeg.org/download.html)).
+
+   ##### :bulb: Reference Installation Steps :point_down:
+   Run in attached Conda environment:
+   ```shell
+   conda install -c conda-forge ffmpeg=4.3.1
+   ```
+
+9. Everything is now up and ready to run Metron's components. Be aware that you can run only one component at the time
    in one session. To run all Metron's components, you have to open several terminal sessions, one per Metron's
    component and attach the virtual environment created in the step 1 (if performed) and attach Poetry's virtual
    environment created in the step 6 (if performed).
