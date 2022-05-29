@@ -3,7 +3,7 @@
 """
 
 
-from os import path 
+from os import path
 from miscellaneous.gre2g_utils import get_similar_items, print_selection_options
 import tools.param_validators as param_val
 from tools.config.hydra_config import GetHydraConfig
