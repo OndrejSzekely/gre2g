@@ -128,7 +128,7 @@ class FileSystemDB(BaseBlobDB):
         Exceptions:
             OSError: Raised if <level_path> does not exist.
         """
-        param_val.type_check(level_path, List[str])
+        param_val.check_type(level_path, List[str])
 
         try:
             mapping_table = self._load_level_mapping_table(level_path)
@@ -169,7 +169,7 @@ class FileSystemDB(BaseBlobDB):
         Exceptions:
             OSError: Raised if <level_path> does not exist.
         """
-        param_val.type_check(level_path, List[str])
+        param_val.check_type(level_path, List[str])
 
         if not level_path:  # If [] is passed.
             return
@@ -206,10 +206,10 @@ class FileSystemDB(BaseBlobDB):
         Exceptions:
             OSError: Raised if <level_path> does not exist or <file_path> does not exist.
         """
-        param_val.type_check(level_path, List[str])
-        param_val.type_check(file, bytes)
-        param_val.type_check(file_name_with_ext, str)
-        param_val.type_check(use_hash, bool)
+        param_val.check_type(level_path, List[str])
+        param_val.check_type(file, bytes)
+        param_val.check_type(file_name_with_ext, str)
+        param_val.check_type(use_hash, bool)
 
         fs_path = self._get_fs_path(level_path)
         if isinstance(fs_path, NullFSPath):
@@ -234,7 +234,7 @@ class FileSystemDB(BaseBlobDB):
         Exceptions:
             OSError: Raised if <file_path> does not exist.
         """
-        param_val.type_check(file_path, List[str])
+        param_val.check_type(file_path, List[str])
 
         file_fs_path = self._get_fs_path(file_path)
         if isinstance(file_fs_path, NullFSPath):
@@ -261,7 +261,7 @@ class FileSystemDB(BaseBlobDB):
         Exceptions:
             OSError: Raised if <file_path> does not exist.
         """
-        param_val.type_check(file_path, List[str])
+        param_val.check_type(file_path, List[str])
 
         file_fs_path = self._get_fs_path(file_path)
         if isinstance(file_fs_path, NullFSPath):
@@ -301,7 +301,7 @@ class FileSystemDB(BaseBlobDB):
 
         Returns (str): String representation of the FS path with prepend absolute path of the database.
         """
-        param_val.type_check(fs_path_list, List[str])
+        param_val.check_type(fs_path_list, List[str])
 
         return path.join(self.database_path, *fs_path_list)
 
@@ -316,7 +316,7 @@ class FileSystemDB(BaseBlobDB):
         Returns (Union[str, NullFSPath]): String representation of the FS path with prepend absolute path
             of the database. If <level_path> isn't valid, `NullFSPath` is returned.
         """
-        param_val.type_check(level_path, List[str])
+        param_val.check_type(level_path, List[str])
         fs_path = self._get_fs_path(level_path)
         if not isinstance(fs_path, NullFSPath):  # `isinstance` is needed because of possible `[]` on a root level
             return self._get_absolute_fs_path_str(level_path)
@@ -334,7 +334,7 @@ class FileSystemDB(BaseBlobDB):
         Exceptions:
             OSError: <new_level_path> is not a valid level path.
         """
-        param_val.type_check(new_level_path, List[str])
+        param_val.check_type(new_level_path, List[str])
 
         fs_new_level_path = self._get_fs_path(new_level_path)
         if isinstance(fs_new_level_path, NullFSPath):
@@ -361,7 +361,7 @@ class FileSystemDB(BaseBlobDB):
 
         Returns (pd.DataFrame): Mapping table Pandas DataFrame.
         """
-        param_val.type_check(level_path, List[str])
+        param_val.check_type(level_path, List[str])
 
         fs_level_path = self._get_fs_path(level_path)
         if isinstance(fs_level_path, NullFSPath):
@@ -381,8 +381,8 @@ class FileSystemDB(BaseBlobDB):
 
         Returns (str): File System name of the item.
         """
-        param_val.type_check(level_path, List[str])
-        param_val.type_check(item_name, str)
+        param_val.check_type(level_path, List[str])
+        param_val.check_type(item_name, str)
 
         mapping_table = self._load_level_mapping_table(level_path)
 

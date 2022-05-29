@@ -25,10 +25,10 @@ class FileSystemIOHandler:
 
         Returns (None):
         """
-        param_val.type_check(folder_path, str)
+        param_val.check_type(folder_path, str)
 
         if path.exists(folder_path):
-            param_val.folder_existence_check(folder_path)
+            param_val.check_folder_existence(folder_path)
             rmtree(folder_path)
         os.mkdir(folder_path)
 
@@ -43,10 +43,10 @@ class FileSystemIOHandler:
 
         Returns (None):
         """
-        param_val.type_check(folder_path, str)
+        param_val.check_type(folder_path, str)
 
         if path.exists(folder_path):
-            param_val.folder_existence_check(folder_path)
+            param_val.check_folder_existence(folder_path)
         else:
             os.mkdir(folder_path)
 
@@ -60,8 +60,8 @@ class FileSystemIOHandler:
 
         Returns (None):
         """
-        param_val.type_check(file_path, str)
-        param_val.file_existence_check(file_path)
+        param_val.check_type(file_path, str)
+        param_val.check_file_existence(file_path)
 
         os.remove(file_path)
 
@@ -75,8 +75,8 @@ class FileSystemIOHandler:
 
         Returns (bytes): File's bytes.
         """
-        param_val.type_check(file_path, str)
-        param_val.file_existence_check(file_path)
+        param_val.check_type(file_path, str)
+        param_val.check_file_existence(file_path)
 
         with open(file_path, "rb") as file_reader:
             file_bytes = file_reader.read()
@@ -94,7 +94,7 @@ class FileSystemIOHandler:
 
         Returns (None):
         """
-        param_val.type_check(folder_path, str)
-        param_val.folder_existence_check(folder_path)
+        param_val.check_type(folder_path, str)
+        param_val.check_folder_existence(folder_path)
 
         rmtree(folder_path)

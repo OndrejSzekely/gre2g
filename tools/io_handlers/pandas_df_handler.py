@@ -30,14 +30,14 @@ class PandasDFIOHandler:
 
         Returns (None):
         """
-        param_val.type_check(df_base_path, str)
-        param_val.type_check(df_format, PDDFFSFormat)
-        param_val.type_check(header, Dict[str, str])
+        param_val.check_type(df_base_path, str)
+        param_val.check_type(df_format, PDDFFSFormat)
+        param_val.check_type(header, Dict[str, str])
 
         df_path = df_base_path + df_format.value
 
         if path.exists(df_path):
-            param_val.file_existence_check(df_path)
+            param_val.check_file_existence(df_path)
             os.remove(df_path)
         df_db = pd.DataFrame(columns=list(header.keys()))
         df_db.astype(header, copy=False)
@@ -59,14 +59,14 @@ class PandasDFIOHandler:
 
         Returns (None):
         """
-        param_val.type_check(df_base_path, str)
-        param_val.type_check(df_format, PDDFFSFormat)
-        param_val.type_check(dataframe, pd.DataFrame)
+        param_val.check_type(df_base_path, str)
+        param_val.check_type(df_format, PDDFFSFormat)
+        param_val.check_type(dataframe, pd.DataFrame)
 
         df_path = df_base_path + df_format.value
 
         if path.exists(df_path):
-            param_val.file_existence_check(df_path)
+            param_val.check_file_existence(df_path)
             os.remove(df_path)
         if df_format == PDDFFSFormat.PARQUET:
             dataframe.to_parquet(df_path, index=False)
@@ -88,12 +88,12 @@ class PandasDFIOHandler:
         Returns:
             pd.DataFrame: Loaded Pandas DataFrame.
         """
-        param_val.type_check(df_base_path, str)
-        param_val.type_check(df_format, PDDFFSFormat)
-        param_val.type_check(dtype_header, Optional[Dict[str, str]])
+        param_val.check_type(df_base_path, str)
+        param_val.check_type(df_format, PDDFFSFormat)
+        param_val.check_type(dtype_header, Optional[Dict[str, str]])
 
         df_path = df_base_path + df_format.value
-        param_val.file_existence_check(df_path)
+        param_val.check_file_existence(df_path)
 
         loaded_df = pd.DataFrame()
         if df_format == PDDFFSFormat.PARQUET:
