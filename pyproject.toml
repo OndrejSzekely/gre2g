@@ -34,6 +34,7 @@ hydra-core = "1.1"
 pandas = "^1.4.2"
 typeguard = "^2.13.3"
 pyarrow = "^7.0.0"
+opencv-python = "^4.5.5"
 
 [tool.poetry.dev-dependencies]
 
