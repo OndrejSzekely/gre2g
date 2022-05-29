@@ -55,8 +55,8 @@ def append_file_ext_if_needed(file_path: str, file_ext: str) -> str:
     Exceptions:
         ValueError: If <file_path> contains a file extension, which doesn't match with <file_ext>.
     """
-    param_val.type_check(file_path, str)
-    param_val.type_check(file_ext, str)
+    param_val.check_type(file_path, str)
+    param_val.check_type(file_ext, str)
 
     if file_ext[0] != ".":
         file_ext = "." + file_ext
@@ -99,3 +99,39 @@ def print_selection_options(items: List[str], selection_indices: List[int]) -> N
     """
     for item, selection_index in zip(items, selection_indices):
         print(f"{item:80}({selection_index})")
+
+
+def get_recording_db_path(recording_db_path: List[str], blob_db_handler: BaseBlobDB) -> List[str]:
+    """
+    Convert's recording's DB path <recording_db_path> given by levels to actual recording file DB path with the
+    filename.
+
+    Args:
+        recording_db_path (List[str]): Recording's DB path given by levels, without actual recoding file name.
+        blob_db_handler (BaseBlobDB): Blob database handler.
+
+    Returns (List[str]): Path to actual recording file. <recording_db_path> + recording's file name with extension.
+    """
+    param_val.check_type(recording_db_path, List[str])
+    param_val.check_type(blob_db_handler, BaseBlobDB)
+
+    recording_db_path_with_file = recording_db_path.copy()
+    recording_db_path_with_file.append(blob_db_handler.get_level_content(recording_db_path_with_file)[0])
+    return recording_db_path_with_file
+
+
+@GetHydraConfig
+def get_recordings_db_loc(hydra_config: GRE2GConfigSchema, blob_db_handler: BaseBlobDB) -> str:
+    """
+    Returns recordings DB normalized path.
+
+    Args:
+        hydra_config (GRE2GConfigSchema): GRE2G configuration parameters provided by Hydra's config.
+        blob_db_handler (BaseBlobDB): DB handler of recordings DB.
+
+    Returns:
+        str: Recordings DB normalized path.
+    """
+    param_val.check_type(blob_db_handler, BaseBlobDB)
+
+    return path.normpath(hydra_config.settings.blob_db_recordings_loc).split(blob_db_handler.PATH_SEPARATOR)
