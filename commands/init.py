@@ -7,6 +7,7 @@ from os import path
 from tools.config.hydra_config import GetHydraConfig
 from tools.config.gre2g_config_schema import GRE2GConfigSchema
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
+from tools.io_handlers.fs_handler import FileSystemIOHandler as FSIOHandler
 from .base_command import BaseCommand
 
 
@@ -36,7 +37,4 @@ class InitCommand(BaseCommand):  # pylint: disable=too-few-public-methods
                 path.normpath(hydra_config.settings.blob_db_recordings_loc).split(blob_db_handler.PATH_SEPARATOR),
                 use_hash=False,
             )
-            blob_db_handler.force_add_level(
-                path.normpath(hydra_config.settings.blob_db_temp_loc).split(blob_db_handler.PATH_SEPARATOR),
-                use_hash=False,
-            )
+            FSIOHandler.create_folder(hydra_config.settings.blob_db_temp_loc)
