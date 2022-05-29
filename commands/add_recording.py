@@ -86,7 +86,7 @@ class AddRecordingCommand(BaseCommand):
                 selection = int(selection)
                 print("_____________________________________________________________________________________________")
 
-                param_val.check_parameter_value_in_range(selection, 0, num_of_options - 1)  # option selection starts from 0
+                param_val.check_parameter_value_in_range(selection, 0, num_of_options - 1)  # selection starts from 0
 
                 selected_level = (
                     level if selection == 0 else existing_similar_levels[num_of_options - 1 - selection]
