@@ -4,7 +4,7 @@
 
 
 from os import path
-from miscellaneous.gre2g_utils import get_similar_items, print_selection_options
+from miscellaneous import gre2g_utils
 import tools.param_validators as param_val
 from tools.config.hydra_config import GetHydraConfig
 from tools.config.gre2g_config_schema import GRE2GConfigSchema
@@ -55,22 +55,17 @@ class AddRecordingCommand(BaseCommand):
         self.end_offset = end_offset
 
     @GetHydraConfig
-    def __call__(self, hydra_config: GRE2GConfigSchema, blob_db_handler: BaseBlobDB) -> None:
+    def __call__(self, blob_db_handler: BaseBlobDB) -> None:
         """
         Adds the recording into the database and indexes it.
 
         Args:
-            hydra_config (GRE2GConfigSchema): GRE2G configuration parameters provided by Hydra's config.
             blob_db_handler (BaseDB): GRE2G's blob database handler.
         """
-        recordings_db_path = path.normpath(hydra_config.settings.blob_db_recordings_loc).split(
-            blob_db_handler.PATH_SEPARATOR
-        )
-
-        recording_path = recordings_db_path
+        recording_path = gre2g_utils.get_recordings_db_loc(blob_db_handler)  # pylint: disable=no-value-for-parameter
         for level in [self.game_name, self.track_name, self.tech]:
             existing_levels = blob_db_handler.get_level_content(recording_path)
-            existing_similar_levels = get_similar_items(existing_levels, level, 6, 0.4)
+            existing_similar_levels = gre2g_utils.get_similar_items(existing_levels, level, 6, 0.4)
             if level in existing_similar_levels:
                 existing_similar_levels.remove(level)
 
@@ -79,7 +74,7 @@ class AddRecordingCommand(BaseCommand):
                 print("There are existing items with similar names:")
                 display_options = existing_similar_levels + [f"Your option: {level}"]
                 num_of_options = len(display_options)
-                print_selection_options(display_options, range(num_of_options-1, -1, -1))  # starts with 0
+                gre2g_utils.print_selection_options(display_options, range(num_of_options-1, -1, -1))  # starts with 0
                 print("#############################################################################################")
                 print("HINT: Just press ENTER to keep (0) option.")
                 selection = input("Select an option:") or 0
