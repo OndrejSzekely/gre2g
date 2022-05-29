@@ -5,7 +5,7 @@
 
 from os import path 
 from miscellaneous.gre2g_utils import get_similar_items, print_selection_options
-from tools import param_validators as param_val
+import tools.param_validators as param_val
 from tools.config.hydra_config import GetHydraConfig
 from tools.config.gre2g_config_schema import GRE2GConfigSchema
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
@@ -39,12 +39,13 @@ class AddRecordingCommand(BaseCommand):
             start_offset (int): Track starting offset (seconds) which are skipped - doesn't contain a valid content.
             end_offset (int): Track ending offset (seconds) which are skipped - doesn't contain a valid content.
         """
-        param_val.type_check(game_name, str)
-        param_val.type_check(track_name, str)
-        param_val.type_check(recording_path, str)
-        param_val.type_check(start_offset, int)
-        param_val.type_check(end_offset, int)
-        param_val.file_existence_check(recording_path)
+        param_val.check_type(game_name, str)
+        param_val.check_type(track_name, str)
+        param_val.check_type(tech, str)
+        param_val.check_type(recording_path, str)
+        param_val.check_type(start_offset, int)
+        param_val.check_type(end_offset, int)
+        param_val.check_file_existence(recording_path)
 
         self.game_name = game_name
         self.track_name = track_name
@@ -59,6 +60,7 @@ class AddRecordingCommand(BaseCommand):
         Adds the recording into the database and indexes it.
 
         Args:
+            hydra_config (GRE2GConfigSchema): GRE2G configuration parameters provided by Hydra's config.
             blob_db_handler (BaseDB): GRE2G's blob database handler.
         """
         recordings_db_path = path.normpath(hydra_config.settings.blob_db_recordings_loc).split(
@@ -84,7 +86,7 @@ class AddRecordingCommand(BaseCommand):
                 selection = int(selection)
                 print("_____________________________________________________________________________________________")
 
-                param_val.parameter_value_in_range(selection, 0, num_of_options - 1)  # option selection starts from 0
+                param_val.check_parameter_value_in_range(selection, 0, num_of_options - 1)  # option selection starts from 0
 
                 selected_level = (
                     level if selection == 0 else existing_similar_levels[num_of_options - 1 - selection]
