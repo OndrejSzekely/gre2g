@@ -10,14 +10,7 @@ from miscellaneous.enums import PDDFFSFormat
 
 
 @dataclass
-class DatabaseSchema:
-    """
-    Hydra Config Schema parent for all database types. Serves as *Base Database* schema.
-    """
-
-
-@dataclass
-class FileSystemDBSchema(DatabaseSchema):
+class FileSystemDBSchema:
     """
     File System database Hydra Schema.
 
@@ -39,7 +32,7 @@ class SettingsSchema:
 
     Atributes:
         blob_db_recordings_loc (str): Location of recordings inside GRE2G's blob database.
-        blob_db_temp_loc (str): Location of temp store inside GRE2G's blob database.
+        blob_db_temp_loc (str): Location of temp folder store on localhost where the code is run.
         blob_database (str): GREG's blob database.
     """
 
@@ -49,14 +42,14 @@ class SettingsSchema:
 
 
 @dataclass
-class RunSchema:
+class BaseRunSchema:
     """
     Hydra Config Schema parent for all `run` commands. Serves as *Base Command* schema.
     """
 
 
 @dataclass
-class RunInitSchema(RunSchema):
+class RunInitSchema(BaseRunSchema):
     """
     `init` run Hydra Schema.
 
@@ -68,7 +61,7 @@ class RunInitSchema(RunSchema):
 
 
 @dataclass
-class RunAddRecordingSchema(RunSchema):
+class RunAddRecordingSchema(BaseRunSchema):
     """
     `add_recording` run Hydra Schema.
 
@@ -92,6 +85,22 @@ class RunAddRecordingSchema(RunSchema):
 
 
 @dataclass
+class RunIndexAddRecordingSchema(BaseRunSchema):
+    """
+    `index_recording` run Hydra Schema.
+
+    Attributes:
+        game_name (str): Game name.
+        track_name (str): Recording track name.
+        tech (str): Technology used to get the recording.
+    """
+    game_name: str
+    track_name: str
+    tech: str
+    _target_: str = "commands.index_recording.IndexRecordingCommand"
+
+
+@dataclass
 class GRE2GConfigSchema:
     """
     Main Hydra Config Schema for GRE2G.
@@ -102,7 +111,7 @@ class GRE2GConfigSchema:
     """
 
     settings: SettingsSchema
-    run: RunSchema
+    run: BaseRunSchema
 
 
 def gre2g_config_schema_registration(cf_instance: ConfigStore) -> None:
@@ -118,3 +127,4 @@ def gre2g_config_schema_registration(cf_instance: ConfigStore) -> None:
     cf_instance.store(group="database", name="file_system_schema", node=FileSystemDBSchema)
     cf_instance.store(group="run", name="init_schema", node=RunInitSchema)
     cf_instance.store(group="run", name="add_recording_schema", node=RunAddRecordingSchema)
+    cf_instance.store(group="run", name="index_recording_schema", node=RunIndexAddRecordingSchema)
