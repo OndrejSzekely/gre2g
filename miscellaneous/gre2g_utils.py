@@ -7,20 +7,20 @@ from typing import List
 from os import path
 import difflib
 import hydra
+from omegaconf import DictConfig
 from commands.base_command import BaseCommand
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
-from tools.config.gre2g_config_schema import GRE2GConfigSchema
 from tools.config.hydra_config import GetHydraConfig
 import tools.param_validators as param_val
 
 
 @GetHydraConfig
-def instantiate_run_command(hydra_config: GRE2GConfigSchema) -> BaseCommand:
+def instantiate_run_command(hydra_config: DictConfig) -> BaseCommand:
     """
     Instantiates particular run command based on configuration provided by Hydra framework.
 
     Args:
-        hydra_config (GRE2GConfigSchema): GRE2G configuration parameters provided by Hydra's config.
+        hydra_config (DictConfig): GRE2G configuration parameters provided by Hydra's config.
 
     Returns (BaseCommand): Instantiated run command.
     """
@@ -28,12 +28,12 @@ def instantiate_run_command(hydra_config: GRE2GConfigSchema) -> BaseCommand:
 
 
 @GetHydraConfig
-def instantiate_blob_database_handler(hydra_config: GRE2GConfigSchema) -> BaseBlobDB:
+def instantiate_blob_database_handler(hydra_config: DictConfig) -> BaseBlobDB:
     """
     Instantiates particular blob db handler based on configuration provided by Hydra framework.
 
     Args:
-        hydra_config (GRE2GConfigSchema): GRE2G configuration parameters provided by Hydra's config.
+        hydra_config (DictConfig): GRE2G configuration parameters provided by Hydra's config.
 
     Returns (BaseBlobDB): Instantiated DB.
     """
@@ -121,12 +121,12 @@ def get_recording_db_path(recording_db_path: List[str], blob_db_handler: BaseBlo
 
 
 @GetHydraConfig
-def get_recordings_db_loc(hydra_config: GRE2GConfigSchema, blob_db_handler: BaseBlobDB) -> str:
+def get_recordings_db_loc(hydra_config: DictConfig, blob_db_handler: BaseBlobDB) -> str:
     """
     Returns recordings DB normalized path.
 
     Args:
-        hydra_config (GRE2GConfigSchema): GRE2G configuration parameters provided by Hydra's config.
+        hydra_config (DictConfig): GRE2G configuration parameters provided by Hydra's config.
         blob_db_handler (BaseBlobDB): DB handler of recordings DB.
 
     Returns:

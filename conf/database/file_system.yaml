@@ -1,5 +1,3 @@
-defaults:
-  - file_system_schema # do not touch
-
+_target_: tools.databases.blob_database.file_system_db.FileSystemDB # do not touch
 database_path: ???
 pd_df_fs_format: "CSV"

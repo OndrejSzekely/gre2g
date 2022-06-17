@@ -1,2 +1,1 @@
-defaults:
-  - init_schema # do not touch
+_target_: commands.init.InitCommand # do not touch

@@ -7,7 +7,6 @@ from os import path
 from miscellaneous import gre2g_utils
 import tools.param_validators as param_val
 from tools.config.hydra_config import GetHydraConfig
-from tools.config.gre2g_config_schema import GRE2GConfigSchema
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
 from .base_command import BaseCommand
 

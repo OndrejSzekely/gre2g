@@ -1,5 +1,4 @@
-defaults:
-  - index_recording_schema # do not touch
+_target_: commands.index_recording.IndexRecordingCommand # do not touch
 
 game_name: ???
 track_name: ???

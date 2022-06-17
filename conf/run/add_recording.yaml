@@ -1,6 +1,4 @@
-defaults:
-  - add_recording_schema # do not touch
-
+_target_: commands.add_recording.AddRecordingCommand # do not touch
 game_name: ???
 track_name: ???
 tech: ???
