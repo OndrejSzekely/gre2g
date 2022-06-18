@@ -72,20 +72,20 @@ class FileSystemDB(BaseBlobDB):
     MAPPING_TABLE_HEADER: Final[Dict[str, str]] = {"name": "U50", "fs_id": "U32"}
     HASH_LENGTH: Final[int] = 32
 
-    def __init__(self, database_path: str, pd_df_fs_format: PDDFFSFormat) -> None:
+    def __init__(self, database_path: str, pd_df_fs_format: str) -> None:
         """
 
         Args:
             database_path (str): Path of the database root folder location.
-            pd_df_fs_format (PDDFFSFormat): Pandas DataFrame file system format.
+            pd_df_fs_format (str): Pandas DataFrame file system format.
 
         Returns (None):
         """
         param_val.check_type(database_path, str)
-        param_val.check_type(pd_df_fs_format, PDDFFSFormat)
-        
+        param_val.check_type(pd_df_fs_format, str)
+
         self.database_path = database_path
-        self.pd_df_fs_format = pd_df_fs_format
+        self.pd_df_fs_format = PDDFFSFormat[pd_df_fs_format]
 
     def __enter__(self) -> FileSystemDB:
         """
