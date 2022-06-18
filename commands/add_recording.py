@@ -6,7 +6,6 @@
 from os import path
 from miscellaneous import gre2g_utils
 import tools.param_validators as param_val
-from tools.config.hydra_config import GetHydraConfig
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
 from .base_command import BaseCommand
 
@@ -53,7 +52,6 @@ class AddRecordingCommand(BaseCommand):
         self.start_offset = start_offset
         self.end_offset = end_offset
 
-    @GetHydraConfig
     def __call__(self, blob_db_handler: BaseBlobDB) -> None:
         """
         Adds the recording into the database and indexes it.
@@ -73,7 +71,7 @@ class AddRecordingCommand(BaseCommand):
                 print("There are existing items with similar names:")
                 display_options = existing_similar_levels + [f"Your option: {level}"]
                 num_of_options = len(display_options)
-                gre2g_utils.print_selection_options(display_options, range(num_of_options-1, -1, -1))  # starts with 0
+                gre2g_utils.print_selection_options(display_options, range(num_of_options - 1, -1, -1))  # starts with 0
                 print("#############################################################################################")
                 print("HINT: Just press ENTER to keep (0) option.")
                 selection = input("Select an option:") or 0
@@ -91,6 +89,6 @@ class AddRecordingCommand(BaseCommand):
             blob_db_handler.force_add_level(recording_path)
 
         _, file_name = path.split(self.recording_path)
-        with open(self.recording_path, 'rb') as file_reader:
+        with open(self.recording_path, "rb") as file_reader:
             blob_db_handler.add_file(recording_path, file_reader.read(), file_name, use_hash=True)
             file_reader.close()
