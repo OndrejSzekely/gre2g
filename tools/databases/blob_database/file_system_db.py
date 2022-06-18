@@ -81,6 +81,9 @@ class FileSystemDB(BaseBlobDB):
 
         Returns (None):
         """
+        param_val.check_type(database_path, str)
+        param_val.check_type(pd_df_fs_format, PDDFFSFormat)
+        
         self.database_path = database_path
         self.pd_df_fs_format = pd_df_fs_format
 
@@ -366,8 +369,9 @@ class FileSystemDB(BaseBlobDB):
         fs_level_path = self._get_fs_path(level_path)
         if isinstance(fs_level_path, NullFSPath):
             raise OSError(f"Given new level path `{level_path}` does not exist.")
-        return PDDFIOHandler.load_df(self._get_mapping_table_abs_path(fs_level_path), self.pd_df_fs_format,
-                                     self.MAPPING_TABLE_HEADER)
+        return PDDFIOHandler.load_df(
+            self._get_mapping_table_abs_path(fs_level_path), self.pd_df_fs_format, self.MAPPING_TABLE_HEADER
+        )
 
     def _add_item_into_mapping_table(self, level_path: List[str], item_name: str, use_hash: bool = True) -> str:
         """
