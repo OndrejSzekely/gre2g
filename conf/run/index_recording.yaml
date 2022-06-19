@@ -1,5 +1,6 @@
+defaults:
+  - /algorithms/key_frame_det@_global_._group_: frames_diff
 _target_: commands.index_recording.IndexRecordingCommand # do not touch
-
 game_name: ???
 track_name: ???
 tech: ???
