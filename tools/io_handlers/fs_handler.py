@@ -51,6 +51,30 @@ class FileSystemIOHandler:
             os.mkdir(folder_path)
 
     @staticmethod
+    def create_whole_path(folder_path: str) -> None:
+        """
+        Creates a folder given by <folder_path>. If there exists a folder on given path, it is deleated and created
+        again. If there aren't existing path folders on the way, it creates ones.
+        If there is a file on given path, an exception (OSError) is rised.
+
+        Args:
+            folder_path (str): Path of the folder which is created along missing path folders.
+
+        Returns (None):
+        """
+        param_val.check_type(folder_path, str)
+
+        folder_path_aux = folder_path + os.sep  # to handle also the last path folder in the loop
+        sep_pos = -1
+        while True:
+            # sep_pos+1 because we want to move to next sep, not include in the substring previously found one
+            sep_pos_next = folder_path_aux[sep_pos+1:].find(os.sep)
+            if sep_pos_next == -1:
+                break
+            sep_pos = sep_pos_next + sep_pos + 1  # initial <sep_pos> is -1
+            FileSystemIOHandler.create_folder(folder_path_aux[:sep_pos])
+
+    @staticmethod
     def delete_file(file_path: str) -> None:
         """
         Deletes a file given by <file_path>. Raises an exception (OSError) if doesn't exist.
