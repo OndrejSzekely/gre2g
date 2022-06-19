@@ -1,0 +1,3 @@
+_partial_: true # do not touch
+_target_: algs.key_frame_det.frames_diff.KeyFrameDetFramesDiff # do not touch
+debug: true
