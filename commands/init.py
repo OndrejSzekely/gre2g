@@ -4,8 +4,8 @@
 
 
 from os import path
+from omegaconf import DictConfig
 from tools.config.hydra_config import GetHydraConfig
-from tools.config.gre2g_config_schema import GRE2GConfigSchema
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
 from tools.io_handlers.fs_handler import FileSystemIOHandler as FSIOHandler
 from .base_command import BaseCommand
@@ -23,12 +23,13 @@ class InitCommand(BaseCommand):  # pylint: disable=too-few-public-methods
         """"""
 
     @GetHydraConfig
-    def __call__(self, hydra_config: GRE2GConfigSchema, blob_db_handler: BaseBlobDB) -> None:  # type: ignore
+    def __call__(self, hydra_config: DictConfig, blob_db_handler: BaseBlobDB) -> None:  # type: ignore
         """
         Performs initialization of the databases and workdir folder. If the folders already exist,
         it will delete them and create empty ones. If the folders does not exist, it will create them.
 
         Attributes:
+            hydra_config (DictConfig): G2REG's config.
             blob_db_handler (BaseBlobDB): GRE2G's blob database handler.
         """
         with blob_db_handler:
