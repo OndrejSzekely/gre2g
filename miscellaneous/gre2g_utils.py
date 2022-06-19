@@ -3,41 +3,26 @@ This file contains small domain-free functions specific to GRE2G.
 """
 
 
-from typing import List
+from typing import List, Any
 from os import path
 import difflib
 import hydra
 from omegaconf import DictConfig
-from commands.base_command import BaseCommand
 from tools.databases.blob_database.base_blob_db import BaseBlobDB
 from tools.config.hydra_config import GetHydraConfig
 import tools.param_validators as param_val
 
 
-@GetHydraConfig
-def instantiate_run_command(hydra_config: DictConfig) -> BaseCommand:
+def instantiate_from_hydra_config(hydra_object_config: DictConfig) -> Any:
     """
-    Instantiates particular run command based on configuration provided by Hydra framework.
+    Instantiates object from Hydra object config <hydra_object_config>. It has to contain <_target_> attribute.
 
     Args:
-        hydra_config (DictConfig): GRE2G configuration parameters provided by Hydra's config.
+        hydra_object_config (DictConfig): Object's Hydra config DictConfig.
 
-    Returns (BaseCommand): Instantiated run command.
+    Returns (Any): Instantiated object.
     """
-    return hydra.utils.instantiate(hydra_config.run)
-
-
-@GetHydraConfig
-def instantiate_blob_database_handler(hydra_config: DictConfig) -> BaseBlobDB:
-    """
-    Instantiates particular blob db handler based on configuration provided by Hydra framework.
-
-    Args:
-        hydra_config (DictConfig): GRE2G configuration parameters provided by Hydra's config.
-
-    Returns (BaseBlobDB): Instantiated DB.
-    """
-    return hydra.utils.instantiate(hydra_config.settings.blob_database)
+    return hydra.utils.instantiate(hydra_object_config)
 
 
 def append_file_ext_if_needed(file_path: str, file_ext: str) -> str:
