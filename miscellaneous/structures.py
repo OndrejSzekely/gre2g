@@ -5,6 +5,8 @@ This module provides data structures/patterns (classes or decorators).
 
 from typing import Set, Any
 from types import MethodType
+from miscellaneous import constants as const
+import tools.param_validators as param_val
 
 
 class Singleton:
@@ -78,3 +80,75 @@ class Singleton:
             )
 
         return self.__class__(MethodType(self._decorated_object, instance))
+
+
+class Resolution:
+    """
+    Class for storing resolution information.
+
+    Attributes:
+        width (int): Resolution width.
+        height (int): Resolution height.
+        channels (int): Resolution's number of channels.
+    """
+
+    @property
+    def width(self) -> None:
+        """
+        N/A
+        """
+        return self._width
+
+    @width.setter
+    def width(self, res_width: int):
+        """
+        N/A
+        """
+        param_val.check_type(res_width, int)
+        param_val.check_parameter_value_in_range(res_width, 1, const.MAX_RESOLUTION_WIDTH)
+        self._width = res_width
+
+    @property
+    def height(self):
+        """
+        N/A
+        """
+        return self._height
+
+    @height.setter
+    def height(self, res_height: int):
+        """
+        N/A
+        """
+        param_val.check_type(res_height, int)
+        param_val.check_parameter_value_in_range(res_height, 1, const.MAX_RESOLUTION_WIDTH)
+        self._height = res_height
+
+    @property
+    def channels(self):
+        """
+        N/A
+        """
+        return self._channels
+
+    @channels.setter
+    def channels(self, res_channels: int):
+        """
+        N/A
+        """
+        param_val.check_type(res_channels, int)
+        param_val.check_parameter_value_in_list(res_channels, [1,3])
+        self._channels = res_channels
+
+    def __init__(self, res_width: int, res_height: int, res_channels: int) -> None:
+        """
+        N/A
+
+        Args:
+            res_width (int): Resolution width.
+            res_height (int): Resolution height.
+            res_channels (int): Resolution's number of channels.
+        """
+        self.width = res_width
+        self.height = res_height
+        self.channels = res_channels
