@@ -3,6 +3,7 @@ Implements `Base Key Frames Detector` used as an interface for all key frames de
 """
 
 from abc import ABC, abstractmethod
+from typing import Final
 import numpy as np
 from miscellaneous.structures import Resolution
 
@@ -10,7 +11,12 @@ from miscellaneous.structures import Resolution
 class KeyFrameDetBase(ABC):
     """
     Implements `Base Key Frames Detector` used as an interface for all key frames detection algorithms.
+
+    Attributes:
+        KEY_FRAMES_FOLDER (str): Subfolder name where key frames are stored.
     """
+
+    KEY_FRAMES_FOLDER: Final[str] = "key_frames"
 
     @abstractmethod
     def __init__(self, debug: bool, debug_path: str) -> None:
