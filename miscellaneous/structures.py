@@ -152,3 +152,12 @@ class Resolution:
         self.width = res_width
         self.height = res_height
         self.channels = res_channels
+
+    def get_pixels_count(self) -> int:
+        """
+        Computes pixels count of the resolution.
+
+        Returns:
+            int: Pixels count.
+        """
+        return self.height * self.width
