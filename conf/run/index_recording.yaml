@@ -1,5 +1,5 @@
 defaults:
-  - /algorithms/key_frame_det@_global_._group_: frames_ratio
+  - /algorithms/key_frame_det@_global_._group_: pixels_dist
 _target_: commands.index_recording.IndexRecordingCommand # do not touch
 debug: true
 game_name: ???

@@ -1,0 +1,7 @@
+_partial_: true # do not touch
+_target_: algs.key_frame_det.pixels_dist.KeyFrameDetPixelsDist # do not touch
+debug_level: 1
+processing_res_width: 1280
+processing_res_height: 720
+threshold: 0.5
+min_kf_distance: 0
