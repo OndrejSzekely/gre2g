@@ -87,21 +87,21 @@ def check_parameter_value_in_range(
 
 
 def check_parameter_value_in_list(
-    param_value: Union[int, float], allowed_vals: List[Union[int, float]]
+    param_value: Union[str, int, float], allowed_vals: List[Union[str, int, float]]
 ) -> None:
     """
     Checks if parameter value <param_value> is in allowd values list <allowed_vals>.
 
     Args:
-        param_value (Union[int, float]): Parameter value.
-        allowed_vals (List[int, float]): Allowed value list.
+        param_value (Union[str, int, float]): Parameter value.
+        allowed_vals (List[str, int, float]): Allowed value list.
 
     Returns (None):
 
     Exceptions:
         ValueError: If value is not in the range.
     """
-    check_type(param_value, (int, float))
-    check_type(allowed_vals, List[Union[int, float]])
+    check_type(param_value, (str, int, float))
+    check_type(allowed_vals, List[Union[str, int, float]])
     if param_value not in allowed_vals:
         raise ValueError(f"Given `{param_value}` is not in allowed list: {allowed_vals}")
