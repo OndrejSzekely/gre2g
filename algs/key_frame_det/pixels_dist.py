@@ -1,5 +1,5 @@
 """
-Implements `Pixels Dist` a key frames detection algorithms.
+Implements a pixels distribution based frames detection algorithm.
 """
 
 from os import path
@@ -15,7 +15,7 @@ from tools import param_validators as param_val
 
 class KeyFrameDetPixelsDist(KeyFrameDetBase):
     """
-    Implements `KeyFrameDetPixelsDist` a key frames detection algorithms.
+    Implements `KeyFrameDetPixelsDist` a key frames detection algorithm.
     It compares pixels values distrubution of consecutive frames. The advantage of the the algorithm is that
     it does not rely on pixel positions, which is problematique when camera is shaking, but rather on pixel values
     distribution across whole frame.

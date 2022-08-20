@@ -1,5 +1,5 @@
 """
-Implements `Frames Ratio` a key frames detection algorithms.
+Implements a frames ratio based key frames detection algorithm.
 """
 
 from enum import Enum
@@ -25,7 +25,7 @@ class AggregationMethod(Enum):
 
 class KeyFrameDetFramesRatio(KeyFrameDetBase):
     """
-    Implements `KeyFrameDetFramesRatio` a key frames detection algorithms.
+    Implements `KeyFrameDetFramesRatio` a key frames detection algorithm.
     It does frame ratio. It takes actual frame and laged frames which are averaged into one. Then the ratio on a pixel
     level is computed which is averaged across pixels.
 
