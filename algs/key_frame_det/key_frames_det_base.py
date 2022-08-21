@@ -11,6 +11,19 @@ from miscellaneous.structures import Resolution
 class KeyFrameDetBase(ABC):
     """
     Implements `Base Key Frames Detector` used as an interface for all key frames detection algorithms.
+    Inherited classes entry points and the way of using:
+    ```
+    key_frame_det: KeyFrameDetBase = KeyFrameDetChild(...)
+    key_frame_det.set_video_properties(**video1_properties)
+    for frame in video1:
+        key_frame_det(frame)
+    key_frame_det.reset()
+
+    key_frame_det.set_video_properties(**video2_properties)
+    for frame in video2:
+        key_frame_det(frame)
+    key_frame_det.reset()
+    ```
 
     Attributes:
         KEY_FRAMES_FOLDER (str): Subfolder name where key frames are stored.
