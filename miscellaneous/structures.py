@@ -89,7 +89,8 @@ class Resolution:
     Attributes:
         width (int): Resolution width.
         height (int): Resolution height.
-        channels (int): Resolution's number of channels.
+        channels (int): Resolution's number of channels. It can be set to `1` (grayscale), `3` (RGB), `4` (RGBA) or
+            `-1` for unknown/not set.
     """
 
     @property
@@ -137,17 +138,18 @@ class Resolution:
         N/A
         """
         param_val.check_type(res_channels, int)
-        param_val.check_parameter_value_in_list(res_channels, [1,3])
+        param_val.check_parameter_value_in_list(res_channels, [-1, 1, 3, 4])   # `-1` stands for unknown channel.
         self._channels = res_channels
 
-    def __init__(self, res_width: int, res_height: int, res_channels: int) -> None:
+    def __init__(self, res_width: int, res_height: int, res_channels: int = -1) -> None:
         """
         N/A
 
         Args:
             res_width (int): Resolution width.
             res_height (int): Resolution height.
-            res_channels (int): Resolution's number of channels.
+            res_channels (int): Resolution's number of channels. By default it sets `res_channels` to unknown symbolic
+                value.
         """
         self.width = res_width
         self.height = res_height

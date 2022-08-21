@@ -43,12 +43,9 @@ class KeyFrameDetBase(ABC):
         ...
 
     @abstractmethod
-    def set_video_properties(self, res: Resolution) -> None:
+    def set_video_properties(self) -> None:
         """
         Used to store metadata of the video which is gonna be processed.
-
-        Args:
-            res (Resolution): Video resolution.
         """
         ...
 

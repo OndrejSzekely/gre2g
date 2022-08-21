@@ -66,23 +66,22 @@ class KeyFrameDetPixelsDist(KeyFrameDetBase):
         self.debug_level = DebugLevel(debug_level)
         self.debug_path = debug_path
         self.kf_threshold = threshold
-        self.res = Resolution(processing_res_width, processing_res_height, 3)
-        self.frame_ind = -1
-        self.prev_distribution = np.zeros((3, 256), dtype=np.float32)
+        self.res = Resolution(processing_res_width, processing_res_height, 3)  # TODO: Assuming RGB only.
         self.min_kf_distance = min_kf_distance
-        self.kf_dist = min_kf_distance  # to be able to detect very first frame
+        self.min_kf_distance = min_kf_distance
+        self.reset()
 
         FSIOHandler.create_whole_path(debug_path)
         FSIOHandler.create_whole_path(path.join(debug_path, self.KEY_FRAMES_FOLDER))
 
-    def set_video_properties(self, res: Resolution) -> None:
+    def set_video_properties(self) -> None:
         """
         Use metadata of the video.
 
         Args:
             res (Resolution): Video resolution.
         """
-        self.res.channels = res.channels
+        ...
 
     def reset(self) -> None:
         """

@@ -32,7 +32,7 @@ class KeyFrameDetFramesRatio(KeyFrameDetBase):
     Attributes:
         KEY_FRAMES_FOLDER (str): Subfolder name where key frames are stored.
             Options are `"mean"` and `"decay`"
-        prev_frames (Optional[np.array]): Proceeding BGR images.
+        prev_frames (np.array): Proceeding BGR images.
             Number of stored images is given by <max_temporal_lag> attribute. Untill <set_video_properties> method is
             called, `None` value is stored. When 
         debug_level (DebugLevel): Set 0 to disable debug mode. Set 1 to debug main parts and 2 to debug all relevant.
@@ -49,9 +49,9 @@ class KeyFrameDetFramesRatio(KeyFrameDetBase):
         aggregation_kernel (np.ndarray): Pixelwise aggregation correlation kernel. Has shape [<max_temporal_lag>].
     """
 
-    def __init__(self, debug_level: int, debug_path: str, threshold: float, processing_res_width: int,
-                 processing_res_height: int, max_temporal_lag: int, min_kf_distance: int,
-                 lag_frames_aggregation: str) -> None:
+    def __init__(self, debug_level: int, debug_path: str,
+                 threshold: float, processing_res_width: int, processing_res_height: int, max_temporal_lag: int,
+                 min_kf_distance: int, lag_frames_aggregation: str) -> None:
         """
         Init method.
 
@@ -86,29 +86,22 @@ class KeyFrameDetFramesRatio(KeyFrameDetBase):
         param_val.check_parameter_value_in_list(lag_frames_aggregation, [opt.value for opt in AggregationMethod])
 
         self.max_temporal_lag = max_temporal_lag
-        self.prev_frames = None
         self.debug_level = DebugLevel(debug_level)
         self.debug_path = debug_path
         self.kf_threshold = threshold
-        self.res = Resolution(processing_res_width, processing_res_height, 3)
-        self.frame_ind = -1
+        self.res = Resolution(processing_res_width, processing_res_height, 3)  # TODO: Assuming RGB only.
         self.min_kf_distance = min_kf_distance
-        self.kf_dist = min_kf_distance  # to be able to detect very first frame
         self.aggregation_kernel = self._get_aggregation_kernel(AggregationMethod(lag_frames_aggregation))
+        self.reset()
 
         FSIOHandler.create_whole_path(debug_path)
         FSIOHandler.create_whole_path(path.join(debug_path, self.KEY_FRAMES_FOLDER))
 
-    def set_video_properties(self, res: Resolution) -> None:
+    def set_video_properties(self) -> None:
         """
         Usemetadata of the video to initialize empty previous frame.
-
-        Args:
-            res (Resolution): Video resolution.
         """
-        self.res.channels = res.channels
-        self.prev_frames = np.zeros((self.max_temporal_lag, self.res.height, self.res.width, self.res.channels),
-            dtype=np.uint8)
+        ...
 
     def reset(self) -> None:
         """
@@ -116,9 +109,10 @@ class KeyFrameDetFramesRatio(KeyFrameDetBase):
 
         Returns (None):
         """
-        self.prev_frames = None
         self.frame_ind = -1
         self.kf_dist = self.min_kf_distance  # to be able to detect very first frame
+        self.prev_frames = np.zeros((self.max_temporal_lag, self.res.height, self.res.width, self.res.channels),
+            dtype=np.uint8)
 
     def __call__(self, new_frame: np.array) -> bool:
         """
@@ -177,7 +171,7 @@ class KeyFrameDetFramesRatio(KeyFrameDetBase):
         if aggregation_type == AggregationMethod.MEAN:
             return np.ones(self.max_temporal_lag) * 1 / self.max_temporal_lag
         if aggregation_type == AggregationMethod.DECAYING:
-            DECAY_WEIGHT: Final[float] = 0.9
+            DECAY_WEIGHT: Final[float] = 0.9  # TODO: Hardcoded value.
             decay = np.ones(self.max_temporal_lag)
             for i in range(self.max_temporal_lag):
                 decay[i] = DECAY_WEIGHT ** (self.max_temporal_lag - i - 1) * (1 - DECAY_WEIGHT)

@@ -18,6 +18,7 @@ from miscellaneous import gre2g_utils
 from .base_command import BaseCommand
 from miscellaneous.structures import Resolution
 
+
 class IndexRecordingCommand(BaseCommand):
     """
     `index_recording` run command class implementation.
@@ -98,6 +99,7 @@ class IndexRecordingCommand(BaseCommand):
         FSIOHandler.force_create_folder(cmd_temp_path)
 
         temp_recording_path = self._save_rec_to_temp(cmd_temp_path, blob_db_handler)
+        temp_recording_path = "persistent_temp/recording.mp4"
 
         key_frames_detector_partial: Any = gre2g_utils.instantiate_from_hydra_config(
             hydra_config.algorithms.key_frame_det
@@ -110,9 +112,7 @@ class IndexRecordingCommand(BaseCommand):
         res_height = int(cap.get(cv.CAP_PROP_FRAME_HEIGHT))
         res_width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
 
-        key_frames_detector.set_video_properties(
-            Resolution(res_width, res_height, 3)  # assuming all recordings are RGB
-            )
+        key_frames_detector.set_video_properties()
         start_processing_t = time()
 
         while True:
